@@ -1,0 +1,25 @@
+extends layout
+
+block content
+  
+  div(id="container")
+    h1= title
+    img(src='/images/alienHead/png')
+    hr(class="col-lg-6")
+  
+    div.row
+      div(class="col-xs-12 col-sm-6 col-lg-8 center-block")
+        form.input-group(id='nameInput')
+          input.form-control(id="userName" type="text" placeholder="Input a reddit user name ...")
+          span.input-group-btn
+            button.btn.btn-default(id='submission' type="submit")
+              i(class="fa fa-search fa-fw")
+              
+    div(id='JSON' hidden)
+    br
+    div#loading(style="display:none")
+      img(src="/images/loading.gif")
+      p Loading ...
+    p#information
+             
+  script(src='/javascripts/main.js')

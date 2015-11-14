@@ -1,0 +1,25 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+/*#search {
+    font-family: "ff-meta-web-1", "ff-meta-web-2",Consolas;
+    display: block;
+}*/
+
+#container {
+  padding-top: 5%
+}
+
+.center-block {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
