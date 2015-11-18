@@ -1,17 +1,14 @@
 var reddit = require('./reddit.js');
 var _ = require('lodash');
 
-var collector = function (inputtedName, dataType, toController) {
-  
-  //perform check on userName & dataType
-  var userName = inputtedName//checkUserName(inputtedName);
+var collector = function (userName, dataType, toController) {
   
   //this becomes bigger when I change the routes to be
   //specific to each dataType
   var acceptedRequests = ['comments', 'submitted']
   
   //if username test pass & accepting certain data request
-  if (_.includes(acceptedRequests, dataType) && userName != 'null') {
+  if (_.includes(acceptedRequests, dataType) && (userName != 'null' || userName != undefined)) {
     
     //gather the requested data from reddit
     collect(dataType, userName, function(res) {
@@ -128,23 +125,6 @@ function processData(collection, dataType, toCollector) {
   } else {
     return toCollector('No data in '+dataType+' collection.', null);
   }
-}
-
-
-function checkUserName(name) {
-  var isOkay;
-  
-  //letters, numbers, dash and underscore
-  // 3 - 20 characters
-  
-  //also check to see if name exists
-  //do this by asking for /u/name. If you get a 404, doesnt exist
-  
-  // if (/* pass regex expression */) {
-    
-  // }
-  
-  return isOkay;
 }
 
 module.exports = collector;
