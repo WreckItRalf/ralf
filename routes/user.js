@@ -15,6 +15,7 @@ router.get('/:userName', function(req, res, next) {
   //dont send errors to parallel -- it won't wait for all functions to finish
   
   async.parallel([
+    
     //gathers comments
     function(callback) {
       console.log('enter collector 1');
@@ -24,6 +25,7 @@ router.get('/:userName', function(req, res, next) {
         callback(err, allComments)
       });
     },
+    
     //gathers submissions
     function(callback) {
       console.log('enter collector 2');
@@ -50,7 +52,8 @@ router.get('/:userName', function(req, res, next) {
       submissions: subs
     }
     
-      res.json(obj);
+    //offfff to the view!
+    res.json(obj);
   })
 
 });

@@ -2,13 +2,13 @@
 $("#nameInput").submit(function(event) {
 	$('#information').hide()
 	
-	/* stop form from submitting normally */
+	// stop form from submitting normally
 	event.preventDefault();
 	
 	var inputtedName = $('#userName').val();
 	console.log('begining request for: ' + inputtedName)
 	
-	//THIS IS WHERE REGEX NEEDS TO BE
+	//Form validation
 	if (checkUserName(inputtedName)) {
 		$('#loading').show();
 		
