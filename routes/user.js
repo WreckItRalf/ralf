@@ -11,6 +11,8 @@ router.get('/:userName', function(req, res, next) {
   
   //call all collectors in parallel. 
   //then gather them into fields & send to view
+
+  //HERE IS WHERE WE NEED TO REQUEST REDDIT FOR USER PAGE
   
   //dont send errors to parallel -- it won't wait for all functions to finish
   
