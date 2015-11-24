@@ -5,13 +5,7 @@ var async = require('async');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  //var userName = 'qilip';
-  var obj = {
-    title: 'ralf'
-  }
-
-  res.render('index', obj)
-  
+  res.render( 'index', {title: 'ralf'} )  
 });
 
 

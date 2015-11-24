@@ -82,7 +82,8 @@ function getDateTime() {
       var second = '0'+second;
   }   
   var dateTime = year+'/'+month+'/'+day+' '+hour+':'+minute+':'+second;   
-    return dateTime;
+  console.log('THE DATE: ' + dateTime);
+  return dateTime;
 }
 
 module.exports = router;
