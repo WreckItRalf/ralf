@@ -30,22 +30,15 @@ $("#nameInput").submit(function(event) {
 		//this should be added to an 'error' para instead.
 		$('#information').show().text("The inputted name must conform to reddit's naming standards");
 	}
-})
-
+});
 
 //checks user name against reddit's specs, as well if it exists.
 function checkUserName(name) {
   
-  //letters, numbers, dash and underscore
-  // 3 - 20 characters
-  
-  //also need to check to see if name exists
-  //do this by asking for /u/name. If you get a 404, doesnt exist
-  
   var flag;
   var myRegex = /^([a-zA-Z0-9_-]){3,20}$/;
-
   
+
   if (myRegex.test(name)) {
     flag = true;
   } else {

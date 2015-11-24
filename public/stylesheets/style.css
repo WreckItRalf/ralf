@@ -16,6 +16,19 @@ a {
   padding-top: 5%
 }
 
+#container hr {
+  display: block;
+  border: none;
+  height: 2px;
+  background-color: black;
+  margin-top: 0px;
+}
+
+#container img {
+  display: block;
+  margin-bottom: 0px;
+}
+
 .center-block {
   display: block;
   margin-left: auto;
