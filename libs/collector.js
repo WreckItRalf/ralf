@@ -1,3 +1,4 @@
+
 var reddit = require('./reddit.js');
 var _ = require('lodash');
 
@@ -5,54 +6,62 @@ var collector = function (userName, dataType, toController) {
   
   //this becomes bigger when I change the routes to be
   //specific to each dataType
-  var acceptedRequests = ['comments', 'submitted']
-  
-  //if username test pass & accepting certain data request
-  if (_.includes(acceptedRequests, dataType) && (userName != 'null' || userName != undefined)) {
+    var acceptedRequests = ['comments', 'submitted']
+    var isErr = true,
+        noErr = false;  
     
-    //gather the requested data from reddit
-    collect(dataType, userName, function(res) {
-      
-      //parse & sort this data
-       processData(res, dataType, function(err, parsedChildren) {
-        if (err) {
-          console.error(err);
-          return toController(null, null);
-        } 
+    //if username test pass & accepting certain data request
+    if (_.includes(acceptedRequests, dataType) && (userName != 'null' || userName != undefined)) {
         
-        return toController(null, parsedChildren);;
-      });
-
-    });
-  } else {
-    toController('Cannot gather inputted data: ' + dataType, null);
+        console.log('gonna collect')
+        //gather the requested data from reddit
+        collect(dataType, userName, function(data) {
+            
+            console.log('gonna parse')
+            //parse & sort this data
+            processData(data, dataType, function (err, parsedChildren) {
+                
+                //this error implies a collection is empty, not a bad thing.  
+                if (err) {
+                    console.error(err);
+                    toController(noErr, '');
+                } else {
+                    toController(noErr, parsedChildren);
+                }
+            });
+        });
+    } else {
+      //something truly hit the fan
+      toController(isErr, 'Cannot gather inputted data: ' + dataType);
   }
 }
-
-
-//algo credit to: snoocore dev
 
 
 /* Gathers all of a specific data type from a user */
 
 function collect(dataType, userName,/*dateStart, dateEnd*/ toCollector) {
-  var children = [];
+    var children = [];
 
-  function handleSlice(slice) {
-    if (slice.empty) {
-      return children;
-    }
+    function handleSlice(slice) {
+        if (slice.empty) {
+            return children;
+        }
     
-    children = children.concat(slice.children);
-    return slice.next().then(handleSlice);
-  }
+        children = children.concat(slice.children);
+        return slice.next().then(handleSlice);
+    }
  
-  console.log('reddit call commencing for: ' + dataType);
-  
-  reddit('/u/$user/$dataType').listing({
-    $user: userName,
-    $dataType: dataType,
-  }).then(handleSlice).then(toCollector);
+    console.log('reddit call commencing for: ' + dataType);
+    
+    //the reddit call
+    reddit('/u/$user/$dataType').listing({
+        $user: userName,
+        $dataType: dataType,
+    }).then(handleSlice).then(function (data) {
+        toCollector(data)
+    })
+
+
 }
 
 
@@ -66,19 +75,12 @@ function printSlice(slice) {
 function processData(collection, dataType, toCollector) {
   var parsed = [];
   var count = 0;
-  
-  console.log('in parsing, '+dataType+' count: ' + collection.length)
-  
+    
   if (collection.length > 0) {
-    
-    //raw data pack, get all fields
-    console.log(collection[0]);
-    
+        
     collection.forEach(function(piece) {
       
-      //fields shared by all dataTypes
-      //***May need to change depending on upvotes/downvotes
-      
+      //fields shared by all dataTypes      
       var obj = {
           subreddit : piece.data.subreddit,
           gilded : piece.data.gilded, 
@@ -89,7 +91,7 @@ function processData(collection, dataType, toCollector) {
       
       
       //REFACTOR THIS.
-      //Use an external helper file to hold all needed fields
+      //Use an external helper file to hold all needed fields (?)
       
       switch (dataType) {
         
