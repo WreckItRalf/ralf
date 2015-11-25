@@ -1,17 +1,14 @@
-
 var reddit = require('./reddit.js');
-var _ = require('lodash');
+//var _ = require('lodash');
 
 var collector = function (userName, dataType, toController) {
   
-  //this becomes bigger when I change the routes to be
-  //specific to each dataType
-    var acceptedRequests = ['comments', 'submitted']
+    //var acceptedRequests = ['comments', 'submitted']
     var isErr = true,
         noErr = false;  
     
     //if username test pass & accepting certain data request
-    if (_.includes(acceptedRequests, dataType) && (userName != 'null' || userName != undefined)) {
+    if (/* _.includes(acceptedRequests, dataType) && */ (userName != 'null' || userName != undefined)) {
         
         console.log('gonna collect')
         //gather the requested data from reddit
