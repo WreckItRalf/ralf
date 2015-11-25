@@ -9,16 +9,4 @@ router.get('/', function(req, res, next) {
 });
 
 
-//test code
-// router.get('/:ya', function(req, res){
-//   // var query = req.query
-//   var id = req.params.ya
-//   res.send(id)
-// })
-    
-
-/* GET containing user information  */
-//need to look through nodeschool.io/express/ on recieving post request
-//router.get('/user/')
-
 module.exports = router;

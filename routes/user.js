@@ -2,63 +2,88 @@ var express = require('express');
 var router = express.Router();
 var collector = require('../libs/collector.js');
 var async = require('async');
+var reddit = require('snoocore');
 
 /* GET users listing. */
 router.get('/:userName', function(req, res, next) {
   
-  var userName = req.params.userName;
-  console.log('user: ' + userName);
-  
-  //call all collectors in parallel. 
-  //then gather them into fields & send to view
+    var userName = req.params.userName;
+    console.log('user: ' + userName);
+    /*
+    call all collectors in parallel. 
+    then gather them into fields & send to view
+     */
 
-  //HERE IS WHERE WE NEED TO REQUEST REDDIT FOR USER PAGE
-  
-  //dont send errors to parallel -- it won't wait for all functions to finish
-  
-  async.parallel([
+
+    //perform name verification here
+
+
+    async.parallel([
     
-    //gathers comments
-    function(callback) {
-      console.log('enter collector 1');
-      
-      collector(userName, 'comments', function(err, allComments) {
-        console.log('left collector 1');
-        callback(err, allComments)
-      });
-    },
+        //gathers comments
+        function (callback) {
+            parallelDevice(userName, 'comments', function (err, res) {
+                callback(err, res)
+            })
+        },
     
-    //gathers submissions
-    function(callback) {
-      console.log('enter collector 2');
-      
-      collector(userName, 'submitted', function(err, allSubmissions) {
-        console.log('left collector 2');
-        callback(err, allSubmissions)
-      });
-    },
-  ], function(err, results) {
+        //gathers submissions
+        function (callback) {
+            parallelDevice(userName, 'submitted', function (err, res) {
+                callback(err, res)
+            })
+        }
+
+    ], function(err, results) {
+        
+        console.log('after parallel');
+        var obj;
+        
+        //checks for true error status of all calls made
+        function isError(elem, index, array) {
+            return elem[0] == true;
+        }
+
+        if (results.some(isError)) {
+            var errorString = results[0][1] + '\n' + results[1][1]
+            
+            obj = {
+                error: true,
+                info: errorString
+            }
+            
+        } else {
+            var date = getDateTime();
+            var coms = results[0][1];
+            var subs = results[1][1];
+            
+            obj = {
+                error: false,
+                time: date,
+                comments: coms,
+                submissions: subs
+            }
+        }
     
-    console.log('after parallel');
-    
-    var date = getDateTime();
-    var coms = results[0];
-    var subs = results[1];
-    
-    console.log('# Comments: ' + coms.length)
-    console.log('# of Submissions' + subs.length)
-    
-    var obj = {
-      time: date,
-      comments: coms,
-      submissions: subs
-    }
-    
-    //offfff to the view!
-    res.json(obj);
-  })
+        //offfff to the view!
+        res.json(obj);
+    })
 
 });
+
+function parallelDevice(userName, type, callback) {
+    console.log('enter ' + type + ' collector');
+    
+    collector(userName, type, function (errorStatus, data) {
+        console.log('left ' + type + ' collector');
+        //console.log(errorStatus)
+        //console.log(data)
+        
+        var arr = [errorStatus, data];
+        callback(null, arr);
+    });
+
+}
 
 function getDateTime() {
   var now     = new Date(); 
