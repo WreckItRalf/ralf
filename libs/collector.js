@@ -10,21 +10,12 @@ var collector = function (userName, dataType, toController) {
     //if username test pass & accepting certain data request
     if (/* _.includes(acceptedRequests, dataType) && */ (userName != 'null' || userName != undefined)) {
         
-        console.log('gonna collect')
         //gather the requested data from reddit
         collect(dataType, userName, function(data) {
             
-            console.log('gonna parse')
             //parse & sort this data
-            processData(data, dataType, function (err, parsedChildren) {
-                
-                //this error implies a collection is empty, not a bad thing.  
-                if (err) {
-                    console.error(err);
-                    toController(noErr, '');
-                } else {
-                    toController(noErr, parsedChildren);
-                }
+            processData(data, dataType, function (parsedChildren) {
+                toController(noErr, parsedChildren);    
             });
         });
     } else {
@@ -118,11 +109,11 @@ function processData(collection, dataType, toCollector) {
       ++count;
       
       if (count === collection.length) {
-        return toCollector(null, parsed);
+        return toCollector(parsed);
       }
     });
   } else {
-    return toCollector('No data in '+dataType+' collection.', null);
+    return toCollector('');
   }
 }
 
