@@ -1,5 +1,3 @@
-
-
 $("#nameInput").submit(function (event) {
     $("#nameInput").blur(); // unselects form
     $('#information').hide()
@@ -38,13 +36,14 @@ function successOccurs(inputtedName, data) {
         console.log('success: ' + inputtedName);
         $('.JSON').text(JSON.stringify(data));
         
-        var comms = (data.comments) ? data.comments : ''; 
-        var subs = data.submissions;// ? data.submissions : ''; 
+        var comms = data.comments;
+        var subs = data.submissions;
         
         $('#information').show().text('Successfully gathered ' + comms.length + ' comments and ' + subs.length + ' submissions from /u/' + inputtedName)
     }
 }
 
+//catches ajax errors
 function errorOccurs(inputtedName, data) {
     $('#loading').hide();
     $('#information').show().text('Unsuccessfully gathered ' + inputtedName + '\'s content for reasons: ' + data)
@@ -52,7 +51,7 @@ function errorOccurs(inputtedName, data) {
 }
 
 
-//checks user name against reddit's specs, as well if it exists.
+//checks user name against reddit's specs
 function checkUserName(name) {
   
     var flag;
