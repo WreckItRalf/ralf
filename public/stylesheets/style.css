@@ -4,11 +4,6 @@ body {
     color: white;
 }
 
-#title {
-  font-family: 'Covered By Your Grace';
-  color: #222222;
-}
-
 #container {
     padding-top: 5%;
 }
@@ -18,6 +13,11 @@ body {
   width: 55%;
   max-width: 560px;
   min-width: 320px;
+}
+
+#search > h1 {
+  font-family: 'Covered By Your Grace';
+  color: #222222;
 }
 
 #search > img {
