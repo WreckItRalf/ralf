@@ -17,6 +17,10 @@ a {
   padding: 2em;
 }
 
+#loading {
+   display:none;
+}
+
 .wordwrap { 
    white-space: pre-wrap;      /* CSS3 */   
    white-space: -moz-pre-wrap; /* Firefox */    
