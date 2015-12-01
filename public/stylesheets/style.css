@@ -1,16 +1,42 @@
 body {
-    padding: 50px;
     font: 14px Helvetica, Arial, sans-serif;
-    background-color: #454545;
+    background-color: #565555;
     color: white;
-}
-
-a {
-    color: #00B7FF;
 }
 
 #container {
     padding-top: 5%;
+}
+
+#search {
+  padding: 2em;
+  width: 55%;
+  max-width: 560px;
+  min-width: 320px;
+}
+
+#search > h1 {
+  font-family: 'Covered By Your Grace';
+  color: #222222;
+}
+
+#search > img {
+  width: 70%;
+  min-width: 200px; 
+  margin-bottom: 0
+}
+
+#search > div[0] {
+  max-width: 400px; 
+  margin-top: 0; 
+}
+
+#loading {
+   display:none;
+}
+
+#loading > img {
+  max-width: 75px;
 }
 
 .wordwrap { 
