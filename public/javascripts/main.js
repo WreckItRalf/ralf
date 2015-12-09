@@ -38,10 +38,14 @@ function successOccurs(inputtedName, data) {
         $('#information').show().text('Error occurred: ' + data.info);
     } else {
         console.log('success: ' + inputtedName);
-        $('.JSON').text(JSON.stringify(data));
+        //$('.JSON').text(JSON.stringify(data));
 
         var comms = data.comments;
         var subs = data.submissions;
+
+        // Build a simple line graph example
+        var dataStuff = [ ['data1', 50, 40, 120, 250, 120, 200, 50, 450], ['data2', 450, 100, 375, 75, 25, 150, 600, 150] ];
+        buildLineGraph('#line1', dataStuff, 'time', 'dollars'); // (selector, data, xLabel, yLabel)
 
         $('#information').show().text('Successfully gathered ' + comms.length + ' comments and ' + subs.length + ' submissions from /u/' + inputtedName);
     }
@@ -53,7 +57,6 @@ function errorOccurs(inputtedName, data) {
     $('#information').show().text('Unsuccessfully gathered ' + inputtedName + '\'s content for reasons: ' + data);
     console.log(data);
 }
-
 
 //checks user name against reddit's specs
 function checkUserName(name) {
